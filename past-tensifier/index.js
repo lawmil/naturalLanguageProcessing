@@ -9,6 +9,15 @@ nlp.extend(require('compromise-sentences'))
 
 app.use(express.static(path.join(__dirname, 'public')))
 
+router.get('/past-tense', (req, res) => {
+  let doc = nlp(req.query.sentence)
+  doc.sentences().toPastTense()
+  const text = doc.text()
+  res.json({ text })
+})
+
+app.use('/', router)
+
 http.createServer(app).listen(port, () => {
   console.log(`listening on port ${port}...`)
 })
